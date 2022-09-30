@@ -1,12 +1,12 @@
 pipeline {
     agent any
     tools {
-        maven 'maven3.8.2'
+        maven 'maven3.8.6'
     }
     stages {
         stage('github clone') {
             steps {
-                git 'https://github.com/joneconsulting/one-apigate.git'
+                git 'https://github.com/freeserver1191/one-apigate.git'
             }
         }
         stage('build') {
@@ -21,7 +21,7 @@ pipeline {
         }
         stage('deploy') {
             steps {
-              deploy adapters: [tomcat9(credentialsId: 'deployer_user', path: '', url: 'http://192.168.0.8:8080/')], contextPath: null, war: '**/*.war'
+              deploy adapters: [tomcat9(credentialsId: 'deployer', path: '', url: 'http://192.168.50.236:8080/')], contextPath: null, war: '**/*.war'
             }
         }
         stage('ssh publisher') {

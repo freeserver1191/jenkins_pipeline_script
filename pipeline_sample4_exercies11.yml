@@ -1,12 +1,12 @@
 pipeline {
     agent any
     tools { 
-      maven 'Maven3.8.5'
+      maven 'Maven3.8.6'
     }
     stages {
         stage('github clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/joneconsulting/cicd-web-project.git'; 
+                git branch: 'main', url: 'https://github.com/freeserver1191/cicd-web-project.git'; 
             }
         }
         
