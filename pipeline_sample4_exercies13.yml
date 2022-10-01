@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    tools { 
+      maven 'Maven3.8.6'
+    }
+    stages {
+        stage('github clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/freeserver1191/cicd-web-project.git'; 
+            }
+        }
+        
+        stage('build') {
+            steps {
+                sh '''
+                    echo build start
+                    mvn clean compile package -DskipTests=true
+                '''
+            }
+        }
+
+        stage('deploy') {
+            steps {
+                deploy adapters: [tomcat9(credentialsId: 'deployer_user', path: '', url: 'http://192.168.50.236:8088')], contextPath: null, war: '**/*.war'
+            }
+        }
+
+        stage('ssh publisher') {
+            steps {
+               sshPublisher(publishers: [sshPublisherDesc(configName: 'docker-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker build -t freelife1191/devops_exam1 -f Dockerfile .', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'target', sourceFiles: 'target/devops_demo-0.1.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+        }
+    }
+}

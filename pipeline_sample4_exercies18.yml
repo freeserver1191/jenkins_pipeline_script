@@ -1,0 +1,15 @@
+pipeline {
+    agent {
+        label 'slave1'
+    }
+    tools { 
+      maven 'Maven3.8.6'
+    }
+    stages {
+        stage('github clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/freeserver1191/cicd-web-project.git'; 
+            }
+        }
+    }
+}

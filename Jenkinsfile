@@ -21,7 +21,7 @@ pipeline {
         }
         stage('deploy') {
             steps {
-              deploy adapters: [tomcat9(credentialsId: 'deployer', path: '', url: 'http://192.168.50.236:8080/')], contextPath: null, war: '**/*.war'
+              deploy adapters: [tomcat9(credentialsId: 'deployer', path: '', url: 'http://192.168.50.236:8088/')], contextPath: null, war: '**/*.war'
             }
         }
         stage('ssh publisher') {
